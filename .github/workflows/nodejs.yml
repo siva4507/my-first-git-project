@@ -1,52 +1,26 @@
-name: Frontend & Backend CI
+name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feature-1 ]  # Replace with your branch names
   pull_request:
     branches: [ main ]
 
 jobs:
-  frontend:
-    name: Frontend (React)
+  build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout source code
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'  # Change to your Node.js version if needed
 
-      - name: Install frontend dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm install
 
-      - name: Build frontend
-        run: npm run build
-
-  backend:
-    name: Backend (Node.js)
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 14
-        uses: actions/setup-node@v4
-        with:
-          node-version: 14
-
-      - name: Install backend dependencies
-        run: npm install
-
-      - name: Test backend
-        run: npm start
+    - name: Run tests or Node.js script
+      run: npm test
